@@ -58,7 +58,7 @@ default['atom']['centos_rhel']['source_url']  = 'https://github.com/atom/atom/re
 default['opera']['centos_rhel']['source_url'] = 'http://get.geo.opera.com/pub/opera/desktop/58.0.3135.79/linux/opera-stable_58.0.3135.79_amd64.rpm'
 default['sococo']['windows']['source_url']    = 'https://s.sococo.com/rs/client/win64/Sococo-x64-6.5.0-20771.exe'
 
-default['devops_bootstrap']['proxy']['http']           = ENV['http_proxy']
-default['devops_bootstrap']['proxy']['https']          = ENV['https_proxy']
-default['devops_bootstrap']['proxy']['no_proxy']       = ENV['no_proxy']
-default['devops_bootstrap']['powershell']['configure'] = true
+default['pd_devops_bootstrap']['proxy']['http']           = ENV['http_proxy']
+default['pd_devops_bootstrap']['proxy']['https']          = ENV['https_proxy']
+default['pd_devops_bootstrap']['proxy']['no_proxy']       = ENV['no_proxy']
+default['pd_devops_bootstrap']['powershell']['configure'] = true

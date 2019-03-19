@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 
-$bootstrapCookbook = 'devops_bootstrap'
+$bootstrapCookbook = 'pd_devops_bootstrap'
 
 if ($args[0]) {
   $bootstrapCookbook = $args[0]
@@ -41,7 +41,7 @@ $berksfile = @"
 source 'https://supermarket.chef.io'
 $privateSource
 
-cookbook '$bootstrapCookbook', git: 'https://github.bedbath.com/pipedream/devops_bootstrap.git'
+cookbook '$bootstrapCookbook', git: 'https://github.bedbath.com/pipedream/pd_devops_bootstrap.git'
 "@
 
 $berksconfig = @"

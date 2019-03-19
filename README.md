@@ -1,4 +1,4 @@
-# devops_bootstrap
+# pd_devops_bootstrap
 
 This cookbook uses a lot of source code from the Nordstrom ChefDK_Bootstrap cookbook which can be found [here.](https://github.com/Nordstrom/chefdk_bootstrap)
 
@@ -10,12 +10,12 @@ If you would like to bypass using the app then you must export the recipes you w
 
 ```
 Unix example:
-export DEVOPS_BOOTSTRAP_SELECTIONS=devops_bootstrap::chrome,devops_bootstrap::iterm2
+export pd_devops_bootstrap_SELECTIONS=pd_devops_bootstrap::chrome,pd_devops_bootstrap::iterm2
 ```
 
 ```
 Windows example:
-$env:GeDevopsBootstrapSelections = "devops_bootstrap::chrome,devops_bootstrap::iterm2"
+$env:GeDevopsBootstrapSelections = "pd_devops_bootstrap::chrome,pd_devops_bootstrap::iterm2"
 ```
 
 Then download the appropriate bootstrap script and execute it.

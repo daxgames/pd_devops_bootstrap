@@ -1,12 +1,12 @@
 #
-# Cookbook Name:: devops_bootstrap
+# Cookbook Name:: pd_devops_bootstrap
 # Spec:: default
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
 require 'spec_helper'
 
-describe 'devops_bootstrap::mac_os_x' do
+describe 'pd_devops_bootstrap::mac_os_x' do
   context 'When all attributes are default, on mac_os_x' do
     let(:chef_run) do
       runner = ChefSpec::SoloRunner.new(platform: 'mac_os_x', version: '10.10') do |node|
@@ -32,7 +32,7 @@ describe 'devops_bootstrap::mac_os_x' do
 
     %w(atom chrome caffeine firefox git iterm2 opera spectacle squidman vagrant virtualbox zsh).each do |recipe|
       it "include the #{recipe} recipe" do
-        expect(chef_run).to include_recipe("devops_bootstrap::#{recipe}")
+        expect(chef_run).to include_recipe("pd_devops_bootstrap::#{recipe}")
       end
     end
   end

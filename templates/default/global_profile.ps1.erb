@@ -4,11 +4,11 @@
 # See https://github.com/chef/chef-dk/issues/374
 $env:HOME = $env:USERPROFILE
 
-<% if node['devops_bootstrap']['proxy']['http'] -%>
-$env:http_proxy = '<%= node['devops_bootstrap']['proxy']['http'] %>'
-$env:https_proxy = '<%= node['devops_bootstrap']['proxy']['https'] || node['devops_bootstrap']['proxy']['http'] %>'
-  <% if node['devops_bootstrap']['proxy']['no_proxy'] -%>
-$env:no_proxy = '<%= node['devops_bootstrap']['proxy']['no_proxy'] %>'
+<% if node['pd_devops_bootstrap']['proxy']['http'] -%>
+$env:http_proxy = '<%= node['pd_devops_bootstrap']['proxy']['http'] %>'
+$env:https_proxy = '<%= node['pd_devops_bootstrap']['proxy']['https'] || node['pd_devops_bootstrap']['proxy']['http'] %>'
+  <% if node['pd_devops_bootstrap']['proxy']['no_proxy'] -%>
+$env:no_proxy = '<%= node['pd_devops_bootstrap']['proxy']['no_proxy'] %>'
   <% end -%>
 <% end -%>
 

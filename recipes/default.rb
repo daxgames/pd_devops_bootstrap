@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: devops_bootstrap
+# Cookbook Name:: pd_devops_bootstrap
 # Recipe:: default
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.

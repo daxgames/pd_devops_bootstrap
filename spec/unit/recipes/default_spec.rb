@@ -1,12 +1,12 @@
 #
-# Cookbook Name:: devops_bootstrap
+# Cookbook Name:: pd_devops_bootstrap
 # Spec:: default
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
 require 'spec_helper'
 
-describe 'devops_bootstrap::default' do
+describe 'pd_devops_bootstrap::default' do
   context 'When all attributes are default, on windows' do
     let(:chef_run) do
       runner = ChefSpec::SoloRunner.new(platform: 'windows', version: '2012R2')
@@ -18,15 +18,15 @@ describe 'devops_bootstrap::default' do
     end
 
     it 'does not include the mac_os_x recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::mac_os_x'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::mac_os_x'
     end
 
     it 'does not include the centos_rhel recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::centos_rhel'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::centos_rhel'
     end
 
     it 'includes the windows recipe' do
-      expect(chef_run).to include_recipe 'devops_bootstrap::windows'
+      expect(chef_run).to include_recipe 'pd_devops_bootstrap::windows'
     end
   end
 
@@ -46,15 +46,15 @@ describe 'devops_bootstrap::default' do
     end
 
     it 'does not include the windows recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::windows'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::windows'
     end
 
     it 'does not include the centos_rhel recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::centos_rhel'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::centos_rhel'
     end
 
     it 'includes the mac_os_x recipe' do
-      expect(chef_run).to include_recipe 'devops_bootstrap::mac_os_x'
+      expect(chef_run).to include_recipe 'pd_devops_bootstrap::mac_os_x'
     end
   end
 
@@ -70,19 +70,19 @@ describe 'devops_bootstrap::default' do
     end
 
     it 'does not include the windows recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::windows'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::windows'
     end
 
     it 'does not include the mac_os_x recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::mac_os_x'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::mac_os_x'
     end
 
     it 'does not include the centos_rhel recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::centos_rhel'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::centos_rhel'
     end
 
     it 'includes the ubuntu recipe' do
-      expect(chef_run).to include_recipe 'devops_bootstrap::ubuntu'
+      expect(chef_run).to include_recipe 'pd_devops_bootstrap::ubuntu'
     end
   end
 
@@ -98,19 +98,19 @@ describe 'devops_bootstrap::default' do
     end
 
     it 'does not include the windows recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::windows'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::windows'
     end
 
     it 'does not include the mac_os_x recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::mac_os_x'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::mac_os_x'
     end
 
     it 'does not include the ubuntu recipe' do
-      expect(chef_run).to_not include_recipe 'devops_bootstrap::ubuntu'
+      expect(chef_run).to_not include_recipe 'pd_devops_bootstrap::ubuntu'
     end
 
     it 'includes the centos_rhel recipe' do
-      expect(chef_run).to include_recipe 'devops_bootstrap::centos_rhel'
+      expect(chef_run).to include_recipe 'pd_devops_bootstrap::centos_rhel'
     end
   end
 end

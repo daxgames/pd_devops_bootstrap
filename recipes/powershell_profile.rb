@@ -6,5 +6,5 @@ template powershell_profile do
   action :create_if_missing
   source 'global_profile.ps1.erb'
 
-  only_if { node['devops_bootstrap']['powershell']['configure'] }
+  only_if { node['pd_devops_bootstrap']['powershell']['configure'] }
 end

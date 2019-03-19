@@ -1,12 +1,12 @@
 #
-# Cookbook Name:: devops_bootstrap
+# Cookbook Name:: pd_devops_bootstrap
 # Spec:: default
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
 require 'spec_helper'
 
-describe 'devops_bootstrap::htop' do
+describe 'pd_devops_bootstrap::htop' do
   context 'When all attributes are default, on mac_os_x' do
     let(:chef_run) do
       runner = ChefSpec::SoloRunner.new(platform: 'mac_os_x', version: '10.10') do |node|
