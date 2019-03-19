@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# Copyright 2015 Nordstrom, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+set -o errexit -o nounset -o pipefail
+
+# If the user has not passed in a cookbook name use 'devops_bootstrap' for the cookbook
+bootstrapCookbook=${1:-devops_bootstrap}
+
+# If the user has passed in a private supermarket url then add it to the Berksfile
+private_source=${2:+source '$2'}
+
+# make userChefDir variable
+userChefDir=~/chef
+
+clear
+
+# introduction
+cat <<EOF;
+This script will:
+
+1. Install Homebrew
+2. Install Cask
+3. Install the latest ChefDK package via Homebrew
+4. Create a 'chef' directory in your user profile (home) directory
+5. Download the 'devops_bootstrap' cookbook via Berkshelf
+6. Run 'chef-client' to install the rest of the tools you will need
+EOF
+
+# creating a Chef directory for Chef development
+if [ ! -d "${userChefDir}" ]
+  then mkdir "${userChefDir}"
+fi
+
+# creating a berks config
+if [ ! -d ~/.berkshelf ]
+  then mkdir ~/.berkshelf
+fi
+
+cat > ~/.berkshelf/config.json <<EOF;
+{"ssl":{"verify": false }}
+EOF
+
+# create Berksfile so that we can install the correct cookbook dependencies
+cat > "${userChefDir}/Berksfile" <<EOF;
+source 'https://supermarket.chef.io'
+"${private_source}"
+
+cookbook '${bootstrapCookbook}', git: 'https://github.bedbath.com/pipedream/devops_bootstrap.git'
+EOF
+
+# create client.rb file so that Chef client can find its dependant cookbooks
+cat > "${userChefDir}/client.rb" <<EOF;
+cookbook_path File.join(Dir.pwd, 'berks-cookbooks')
+EOF
+
+# install Homebrew
+if [ ! -f /usr/local/bin/brew ]
+ then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+else
+  echo 'Homebrew is already installed.'
+fi
+
+# install brew-cask
+if [ ! -d /usr/local/Cellar/brew-cask ]
+  then brew install caskroom/cask/brew-cask
+else
+  echo 'Homebrew Cask is already installed.'
+fi
+
+# install chefDK
+brew cask install chefdk
+
+# making sure that we are vendor cookbooks into a sub directory of the userChefDir
+cd "${userChefDir}"
+berks vendor
+
+# run chef-client (installed by ChefDK) to bootstrap this machine
+sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "$GE_DEVOPS_BOOTSTRAP_SELECTIONS"
+
+# cleanup
+[[ -f "${userChefDir}/berksfile" ]] && rm "${userChefDir}/berksfile"
+[[ -f "${userChefDir}/Berksfile.lock" ]] && rm "${userChefDir}/Berksfile.lock"
+[[ -f "${userChefDir}/client.rb" ]] && rm "${userChefDir}/client.rb"
+[[ -d berks-cookbooks ]] && rm -r berks-cookbooks
+
+#End message to direct Mac users to last step in set up
+cat <<EOF;
+You're almost done!!! Go back to the ChefDK_Bootstrap README to complete your Chef workstation setup.
+EOF
