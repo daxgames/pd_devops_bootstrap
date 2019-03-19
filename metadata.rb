@@ -1,4 +1,4 @@
-name 'devops_bootstrap'
+name 'pd_devops_bootstrap'
 maintainer 'The Authors'
 maintainer_email 'you@example.com'
 license 'all_rights'
