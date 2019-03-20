@@ -13,6 +13,9 @@
 # limitations under the License.
 #
 
+$proxyHost = 'htttp-proxy.bedbath.com'
+$proxyPort = '8080'
+
 $bootstrapCookbook = 'pd_devops_bootstrap'
 
 if ($args[0]) {
@@ -23,8 +26,8 @@ if ($args[1]) {
   $privateSource = "source '$args[1]'"
 }
 
-$chefDkSource = 'https://www.chef.io/chef/download-chefdk?p=windows&pv=2008r2&m=x86_64&v=latest'
-$portableGitSource = "https://github.com/git-for-windows/git/releases/download/v2.11.0.windows.1/PortableGit-2.11.0-32-bit.7z.exe"
+$chefWorkstationSource = 'https://packages.chef.io/files/stable/chef-workstation/0.2.48/windows/2016/chef-workstation-0.2.48-1-x64.msi'
+$portableGitSource = 'https://github.com/git-for-windows/git/releases/download/v2.21.0.windows.1/PortableGit-2.21.0-64-bit.7z.exe'
 
 $userChefDir = Join-Path -path $env:USERPROFILE -childPath 'chef'
 $berksfilePath = Join-Path -path $userChefDir -childPath 'Berksfile'
@@ -57,7 +60,7 @@ $introduction = @"
 
 ### This bootstrap script will:
 
-1. Install the latest ChefDK package.
+1. Install the latest Chef Workstation package.
 2. Create a `chef` directory in your user profile (home) directory.
 3. Download the `chefdk_bootstrap` cookbook via Berkshelf
 4. Run `chef-client` to install the rest of the tools you'll need.
@@ -84,13 +87,13 @@ $chefConfig | Out-File -FilePath $chefConfigPath -Encoding ASCII
 
 # Set Proxy for this session
 if ( ! ( test-path env:http_proxy ) ) {
-  write-host "Setting http_proxy=http://10.41.161.24:3128"
-  $env:http_proxy="http://10.41.161.24:3128"
+  write-host "Setting http_proxy=http://${proxyHost}:${proxyPort}"
+  $env:http_proxy="http://${proxyHost}:${proxyPort}"
 }
 
 if ( ! ( test-path env:https_proxy ) ) {
-  write-host "Setting https_proxy=http://10.41.161.24:3128"
-  $env:https_proxy="http://10.41.161.24:3128"
+  write-host "Setting https_proxy=http://${proxyHost}:${proxyPort}"
+  $env:https_proxy="http://${proxyHost}:${proxyPort}"
 }
 
 if ( ! ( test-path env:no_proxy ) ) {
@@ -101,20 +104,15 @@ if ( ! ( test-path env:no_proxy ) ) {
   $env:no_proxy += ",github.bedbath.com"
 }
 
-# Install ChefDK .msi package from Chef
+# Install chef-workstation .msi package from Chef
 if ( ! ( get-command chef -erroraction silentlycontinue ) ) {
-  Write-Host 'Installing ChefDK...'
-  # if ( ! ( test-path "$userChefDir\ChefDK.msi" ) ) {
-  #   iwr "$chefDkSource" -outfile "$userChefDir\ChefDK.msi"
-  # }
-  # Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, "$userChefDir\ChefDK.msi" -verbose
-
-  Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, "$chefDkSource" -verbose  
+  Write-Host 'Installing Chef Workstation...'
+  Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, "$chefWorkstationSource" -verbose
 }
 
-# Add ChefDK to the path
-if ( ! ( $env:path -match "C:\\opscode\\chefdk\\bin" ) ) {
-  $env:Path += ";C:\opscode\chefdk\bin"
+# Add chef-workstation to the path
+if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
+  $env:Path += ";C:\opscode\chef-workstation\bin"
 }
 
 Set-Location $userChefDir
@@ -153,7 +151,7 @@ if ( ! ( get-command choco -erroraction silentlycontinue ) ) {
 write-host "choco feature enable -n allowEmptyChecksums"
 choco feature enable -n allowEmptyChecksums
 
-# run chef-client (installed by ChefDK) to bootstrap this machine
+# run chef-client (installed by Chef Workstation) to bootstrap this machine
 $run_list = "$env:GeDevopsBootstrapSelections"
 chef-client -A -z -l error -c $chefConfigPath -o $run_list
 

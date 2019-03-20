@@ -82,14 +82,14 @@ else
 fi
 
 # install chefDK
-brew cask install chefdk
+brew cask install chef/chef/chef-workstation
 
 # making sure that we are vendor cookbooks into a sub directory of the userChefDir
 cd "${userChefDir}"
 berks vendor
 
 # run chef-client (installed by ChefDK) to bootstrap this machine
-sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "$GE_DEVOPS_BOOTSTRAP_SELECTIONS"
+sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "$PD_DEVOPS_BOOTSTRAP_SELECTIONS"
 
 # cleanup
 [[ -f "${userChefDir}/berksfile" ]] && rm "${userChefDir}/berksfile"
@@ -99,5 +99,5 @@ sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "$GE_DEVOPS_BOO
 
 #End message to direct Mac users to last step in set up
 cat <<EOF;
-You're almost done!!! Go back to the ChefDK_Bootstrap README to complete your Chef workstation setup.
+You're almost done!!! Go back to the pd_devops_bootstrap README to complete your Chef workstation setup.
 EOF

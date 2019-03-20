@@ -29,10 +29,10 @@ userChefDir=~/chef
 clear
 
 # introduction
-cat <<EOF;
+cat <<EOF
 This script will:
 
-1. Install the latest ChefDK package
+1. Install the latest Chef Workstation package
 2. Install git
 3. Create a 'chef' directory in your user profile (home) directory
 4. Download the 'pd_devops_bootstrap' cookbook via Berkshelf
@@ -40,21 +40,21 @@ This script will:
 EOF
 
 # creating a Chef directory for Chef development
-if [ ! -d "${userChefDir}" ]
-  then mkdir "${userChefDir}"
+if [ ! -d "${userChefDir}" ] ; then
+  mkdir "${userChefDir}"
 fi
 
 # creating a berks config
-if [ ! -d ~/.berkshelf ]
-  then mkdir ~/.berkshelf
+if [ ! -d ~/.berkshelf ] ; then
+  mkdir ~/.berkshelf
 fi
 
-cat > ~/.berkshelf/config.json <<EOF;
+cat > ~/.berkshelf/config.json <<EOF
 {"ssl":{"verify": false }}
 EOF
 
 # create Berksfile so that we can install the correct cookbook dependencies
-cat > "${userChefDir}/Berksfile" <<EOF;
+cat > "${userChefDir}/Berksfile" <<EOF
 source 'https://supermarket.chef.io'
 "${private_source}"
 
@@ -62,18 +62,20 @@ cookbook '${bootstrapCookbook}', git: 'https://github.bedbath.com/pipedream/pd_d
 EOF
 
 # create client.rb file so that Chef client can find its dependant cookbooks
-cat > "${userChefDir}/client.rb" <<EOF;
+cat > "${userChefDir}/client.rb" <<EOF
 cookbook_path File.join(Dir.pwd, 'berks-cookbooks')
 EOF
 
-# install chefdk
+# # install chef-workstation
 cd "${userChefDir}"
+export PD_SW_CHEFWS_VER=0.2.48
 # no need to download more than once while testing
-if [ ! -f chefdk.rpm ]
-  then curl https://opscode-omnibus-packages.s3.amazonaws.com/el/7/x86_64/chefdk-0.9.0-1.el7.x86_64.rpm > chefdk.rpm
+if [ ! -f chef_workstation_${PD_SW_CHEFWS_VER}.rpm ] ; then
+  then curl http://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/el/7/chef-workstation-${PD_SW_CHEFWS_VER}-1.el6.x86_64.rpm > chef_workstation_${PD_SW_CHEFWS_VER}.rpm
 fi
-if [ ! -d /opt/chefdk ]
-  then sudo rpm -Uvh chefdk.rpm
+
+if [ ! -d /opt/chef_workstation ] || [ "${new_download}" == "1" ] ; then
+  then sudo rpm -Uvh chef_workstation_${PD_SW_CHEFWS_VER}.rpm
 fi
 
 # chef needs git installed to pull down cookbooks
@@ -83,17 +85,17 @@ sudo yum -y install git
 # making sure that we are vendor cookbooks into a sub directory of the userChefDir
 berks vendor
 
-# run chef-client (installed by ChefDK) to bootstrap this machine
-sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "$GE_DEVOPS_BOOTSTRAP_SELECTIONS"
+# run chef-client (installed by Chef Workstation) to bootstrap this machine
+sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "$PD_DEVOPS_BOOTSTRAP_SELECTIONS"
 
 # cleanup
 [[ -f "${userChefDir}/berksfile" ]] && rm "${userChefDir}/berksfile"
-[[ -f "${userChefDir}/chefdk.rpm" ]] && rm "${userChefDir}/chefdk.rpm"
+[[ -f "${userChefDir}/chef_workstation_${PD_SW_CHEFWS_VER}.rpm" ]] && rm "${userChefDir}/chef_workstation_${PD_SW_CHEFWS_VER}.rpm"
 [[ -f "${userChefDir}/Berksfile.lock" ]] && rm "${userChefDir}/Berksfile.lock"
 [[ -f "${userChefDir}/client.rb" ]] && rm "${userChefDir}/client.rb"
 [[ -d berks-cookbooks ]] && rm -r berks-cookbooks
 
 #End message to direct CentOS RHEL users to last step in set up
-cat <<EOF;
-You're almost done!!! Go back to the ChefDK_Bootstrap README to complete your Chef workstation setup.
+cat <<EOF
+You're almost done!!! Go back to the pd_devops_bootstrap README to complete your Chef workstation setup.
 EOF

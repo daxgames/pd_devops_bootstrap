@@ -6,7 +6,7 @@ As per the Nordstrom cookbook please make sure to have Powershell 4.0 or greater
 
 One of the key ways that this cookbook differs from the Nordstrom cookbook is that you can select what you would like to install. The simplest way to facilitate this is through the angular app [here.](https://github.bedbath.com/pipedream/pd_devops_bootstrap_site)
 
-If you would like to bypass using the app then you must export the recipes you would like run to an environment variable GE_DEVOPS_BOOTSTRAP_SELECTIONS.
+If you would like to bypass using the app then you must export the recipes you would like run to an environment variable PD_DEVOPS_BOOTSTRAP_SELECTIONS.
 
 ```
 Unix example:
