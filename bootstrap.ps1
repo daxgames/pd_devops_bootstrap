@@ -109,6 +109,10 @@ if ( ! ( test-path env:no_proxy ) ) {
 }
 
 $Wcl=New-Object System.Net.WebClient
+$Wcl.proxy = (new-object System.Net.WebProxy($env:http_proxy))
+$Wcl.proxy.BypassList = (($env:no_proxy).split(','))
+
+write-host $("Please enter credentials for " + $env:http_proxy)
 $Creds=Get-Credential
 $Wcl.Proxy.Credentials=$Creds
 
