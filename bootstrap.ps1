@@ -181,7 +181,7 @@ if ( ! ( get-command choco -erroraction silentlycontinue ) ) {
 
 write-host "================================================"
 
-"${userChefDir}\install.ps1"
+get-content "${userChefDir}\install.ps1" | iex
 
 write-host "================================================"
 
