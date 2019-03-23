@@ -143,7 +143,7 @@ if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
 # Install Portable Git
 if (! ( get-command git -erroraction silentlycontinue )) {
   if ( ! ( test-path "$userChefDir\git_portable.exe" ) ) {
-    Write-Host 'Downloading $portableGitSource to git_portable.exe...'
+    Write-Host Downloading $portableGitSource to git_portable.exe...
     # iwr $portableGitSource -outfile git_portable.exe
     $Wcl.DownloadFile($portableGitSource, 'git_portable.exe')
   }
