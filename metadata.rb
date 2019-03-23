@@ -1,4 +1,4 @@
-name 'pd_pd_devops_bootstrap'
+name 'pd_devops_bootstrap'
 maintainer 'BBB Devops Engineering'
 maintainer_email 'devops-eng@bedbath.com'
 license 'all_rights'
