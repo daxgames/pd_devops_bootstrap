@@ -16,9 +16,32 @@
 $proxyHost = 'htttp-proxy.bedbath.com'
 $proxyPort = '8080'
 
-netsh winhttp show proxy
-netsh winhttp set proxy $($proxyHost + ":" + $proxyPort)
-netsh winhttp show proxy
+# Set Proxy for this session
+if ( ! ( test-path env:http_proxy ) ) {
+  write-host "Setting http_proxy=http://${proxyHost}:${proxyPort}"
+  $env:http_proxy="http://${proxyHost}:${proxyPort}"
+}
+
+if ( ! ( test-path env:https_proxy ) ) {
+  write-host "Setting https_proxy=http://${proxyHost}:${proxyPort}"
+  $env:https_proxy="http://${proxyHost}:${proxyPort}"
+}
+
+if ( ! ( test-path env:no_proxy ) ) {
+  write-host "Setting no_proxy=127.0.0.1,localhost,github.bedbath.com"
+  $env:no_proxy = "127.0.0.1,localhost,github.bedbath.com"
+} elseif ( ! ( $env:no_proxy -match "github.bedbath.com" ) ) {
+  write-host "Setting no_proxy=$env:no_proxy,github.bedbath.com"
+  $env:no_proxy += ",github.bedbath.com"
+}
+
+$Wcl=New-Object System.Net.WebClient
+$Wcl.proxy = (new-object System.Net.WebProxy($env:http_proxy))
+$Wcl.proxy.BypassList = (($env:no_proxy).split(','))
+
+write-host $("Please enter credentials for " + $env:http_proxy)
+$Creds=Get-Credential
+$Wcl.Proxy.Credentials=$Creds
 
 $bootstrapCookbook = 'pd_devops_bootstrap'
 
@@ -88,33 +111,6 @@ $berksconfig | Out-File -FilePath $berksconfPath -Encoding ASCII
 
 # Write out minimal chef-client config file
 $chefConfig | Out-File -FilePath $chefConfigPath -Encoding ASCII
-
-# Set Proxy for this session
-if ( ! ( test-path env:http_proxy ) ) {
-  write-host "Setting http_proxy=http://${proxyHost}:${proxyPort}"
-  $env:http_proxy="http://${proxyHost}:${proxyPort}"
-}
-
-if ( ! ( test-path env:https_proxy ) ) {
-  write-host "Setting https_proxy=http://${proxyHost}:${proxyPort}"
-  $env:https_proxy="http://${proxyHost}:${proxyPort}"
-}
-
-if ( ! ( test-path env:no_proxy ) ) {
-  write-host "Setting no_proxy=127.0.0.1,localhost,github.bedbath.com"
-  $env:no_proxy = "127.0.0.1,localhost,github.bedbath.com"
-} elseif ( ! ( $env:no_proxy -match "github.bedbath.com" ) ) {
-  write-host "Setting no_proxy=$env:no_proxy,github.bedbath.com"
-  $env:no_proxy += ",github.bedbath.com"
-}
-
-$Wcl=New-Object System.Net.WebClient
-$Wcl.proxy = (new-object System.Net.WebProxy($env:http_proxy))
-$Wcl.proxy.BypassList = (($env:no_proxy).split(','))
-
-write-host $("Please enter credentials for " + $env:http_proxy)
-$Creds=Get-Credential
-$Wcl.Proxy.Credentials=$Creds
 
 $Wcl.DownloadFile($chefWorkstationSource, 'chef.msi')
 
