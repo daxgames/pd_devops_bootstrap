@@ -179,11 +179,11 @@ if ( ! ( get-command choco -erroraction silentlycontinue ) ) {
   $Wcl.DownloadFile('https://chocolatey.org/install.ps1', "${userChefDir}\install.ps1")
 }
 
-white-host "================================================"
+write-host "================================================"
 
 "${userChefDir}\install.ps1"
 
-white-host "================================================"
+write-host "================================================"
 
 # del "${userChefDir}\install.ps1"
 
