@@ -98,6 +98,8 @@ Clear-Host
 
 Write-Host $introduction
 
+dir env:*_proxy
+
 # create the chef directory
 if (!(Test-Path $userChefDir -pathType container)) {
   New-Item -ItemType 'directory' -path $userChefDir
@@ -114,13 +116,17 @@ $chefConfig | Out-File -FilePath $chefConfigPath -Encoding ASCII
 
 $Wcl.DownloadFile($chefWorkstationSource, 'chef.msi')
 
-# Install chef-workstation .msi package from Chef
-if ( ! ( get-command chef -erroraction silentlycontinue ) ) {
-  Write-Host 'Installing Chef Workstation...'
-  Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, chef.msi -verbose
+if (test-path 'chef.msi') {
+  # Install chef-workstation .msi package from Chef
+  if ( ! ( get-command chef -erroraction silentlycontinue ) ) {
+    Write-Host 'Installing Chef Workstation...'
+    Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, chef.msi -verbose
+  }
+  
+  del chef.msi
+} else {
+  write-host Downloading Chef Workstation failed!
 }
-
-del chef.msi
 
 # Add chef-workstation to the path
 if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
