@@ -10,11 +10,11 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
 $proxyHost = 'htttp-proxy.bedbath.com'
 $proxyPort = '8080'
+
+$proxyHost = 192.168.20.155
+$proxyPort = 3128
 
 # Set Proxy for this session
 if ( ! ( test-path env:http_proxy ) ) {
@@ -39,9 +39,9 @@ $Wcl=New-Object System.Net.WebClient
 $Wcl.proxy = (new-object System.Net.WebProxy($env:http_proxy))
 $Wcl.proxy.BypassList = (($env:no_proxy).split(','))
 
-write-host $("Please enter credentials for " + $env:http_proxy)
-$Creds=Get-Credential
-$Wcl.Proxy.Credentials=$Creds
+# write-host $("Please enter credentials for " + $env:http_proxy)
+# $Creds=Get-Credential
+# $Wcl.Proxy.Credentials=$Creds
 
 $bootstrapCookbook = 'pd_devops_bootstrap'
 
