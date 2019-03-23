@@ -114,6 +114,7 @@ $berksconfig | Out-File -FilePath $berksconfPath -Encoding ASCII
 # Write out minimal chef-client config file
 $chefConfig | Out-File -FilePath $chefConfigPath -Encoding ASCII
 
+write-host Please wait, downloading $chefWorkstationSource to chef.msi...
 $Wcl.DownloadFile($chefWorkstationSource, 'chef.msi')
 
 if (test-path 'chef.msi') {
@@ -122,7 +123,7 @@ if (test-path 'chef.msi') {
     Write-Host 'Installing Chef Workstation...'
     Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, chef.msi -verbose
   }
-  
+
   del chef.msi
 } else {
   write-host Downloading Chef Workstation failed!
