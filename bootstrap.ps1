@@ -176,12 +176,12 @@ set-executionpolicy bypass
 if ( ! ( get-command choco -erroraction silentlycontinue ) ) {
   Write-Host 'Installing Chocolatey...'
   # iwr https://chocolatey.org/install.ps1 | iex
-  $Wcl.DownloadFile('https://chocolatey.org/install.ps1', 'install.ps1')
+  $Wcl.DownloadFile('https://chocolatey.org/install.ps1', "${userChefDir}\install.ps1")
 }
 
-.\install.ps1
+"${userChefDir}\install.ps1"
 
-del install.ps1
+del "${userChefDir}\install.ps1"
 
 write-host "choco feature enable -n allowEmptyChecksums"
 choco feature enable -n allowEmptyChecksums
