@@ -181,7 +181,7 @@ if ( ! ( get-command choco -erroraction silentlycontinue ) ) {
 
 "${userChefDir}\install.ps1"
 
-del "${userChefDir}\install.ps1"
+# del "${userChefDir}\install.ps1"
 
 write-host "choco feature enable -n allowEmptyChecksums"
 choco feature enable -n allowEmptyChecksums
