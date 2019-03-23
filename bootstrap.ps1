@@ -18,7 +18,7 @@ $proxyPort = '8080'
 
 netsh winhttp show proxy
 
-netsh winhttp set proxy "$proxyHost:$proxyPort"
+netsh winhttp set proxy $("$proxyHost:$proxyPort")
 
 $bootstrapCookbook = 'pd_devops_bootstrap'
 
