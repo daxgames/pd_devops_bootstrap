@@ -126,6 +126,7 @@ if (test-path 'chef.msi') {
   del chef.msi
 } else {
   write-host Downloading Chef Workstation failed!
+  exit
 }
 
 # Add chef-workstation to the path
