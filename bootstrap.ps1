@@ -16,6 +16,10 @@
 $proxyHost = 'htttp-proxy.bedbath.com'
 $proxyPort = '8080'
 
+netsh winhttp show proxy
+
+netsh winhttp set proxy "$proxyHost:$proxyPort"
+
 $bootstrapCookbook = 'pd_devops_bootstrap'
 
 if ($args[0]) {
@@ -104,11 +108,19 @@ if ( ! ( test-path env:no_proxy ) ) {
   $env:no_proxy += ",github.bedbath.com"
 }
 
+$Wcl=New-Object System.Net.WebClient
+$Creds=Get-Credential
+$Wcl.Proxy.Credentials=$Creds
+
+$Wcl.DownloadFile($chefWorkstationSource, 'chef.msi')
+
 # Install chef-workstation .msi package from Chef
 if ( ! ( get-command chef -erroraction silentlycontinue ) ) {
   Write-Host 'Installing Chef Workstation...'
-  Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, "$chefWorkstationSource" -verbose
+  Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, chef.msi -verbose
 }
+
+del chef.msi
 
 # Add chef-workstation to the path
 if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
@@ -121,7 +133,8 @@ Set-Location $userChefDir
 if (! ( get-command git -erroraction silentlycontinue )) {
   if ( ! ( test-path "$userChefDir\git_portable.exe" ) ) {
     Write-Host 'Downloading Git Portable...'
-    iwr $portableGitSource -outfile git_portable.exe
+    # iwr $portableGitSource -outfile git_portable.exe
+    $Wcl.DownloadFile($portableGitSource, 'git_portable.exe')
   }
 
   if ( ! ( test-path "$portableGitPath\bin\git.exe" ) ) {
@@ -144,9 +157,13 @@ set-executionpolicy bypass
 # Install Chocolatey
 if ( ! ( get-command choco -erroraction silentlycontinue ) ) {
   Write-Host 'Installing Chocolatey...'
-  iwr https://chocolatey.org/install.ps1 | iex
-
+  # iwr https://chocolatey.org/install.ps1 | iex
+  $Wcl.DownloadFile('https://chocolatey.org/install.ps1', 'install.ps1')
 }
+
+.\install.ps1
+
+del install.ps1
 
 write-host "choco feature enable -n allowEmptyChecksums"
 choco feature enable -n allowEmptyChecksums
