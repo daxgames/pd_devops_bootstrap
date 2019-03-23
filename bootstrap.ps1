@@ -13,8 +13,8 @@
 $proxyHost = 'htttp-proxy.bedbath.com'
 $proxyPort = '8080'
 
-$proxyHost = 192.168.20.155
-$proxyPort = 3128
+$proxyHost = '192.168.20.155'
+$proxyPort = '3128'
 
 # Set Proxy for this session
 if ( ! ( test-path env:http_proxy ) ) {
