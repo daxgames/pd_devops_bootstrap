@@ -114,7 +114,7 @@ $berksconfig | Out-File -FilePath $berksconfPath -Encoding ASCII
 # Write out minimal chef-client config file
 $chefConfig | Out-File -FilePath $chefConfigPath -Encoding ASCII
 
-if ( -not get-command chef ) {
+if ( -not $(get-command chef) ) {
   write-host Please wait, downloading $chefWorkstationSource to chef.msi...
   $Wcl.DownloadFile($chefWorkstationSource, 'chef.msi')
 
