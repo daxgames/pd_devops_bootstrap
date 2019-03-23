@@ -114,7 +114,9 @@ $berksconfig | Out-File -FilePath $berksconfPath -Encoding ASCII
 # Write out minimal chef-client config file
 $chefConfig | Out-File -FilePath $chefConfigPath -Encoding ASCII
 
-if ( -not $(get-command chef) ) {
+Set-Location $userChefDir
+
+if ( -not $(test-path c:\opscode\chef-workstation) ) {
   write-host Please wait, downloading $chefWorkstationSource to chef.msi...
   $Wcl.DownloadFile($chefWorkstationSource, 'chef.msi')
 
@@ -129,6 +131,8 @@ if ( -not $(get-command chef) ) {
   } else {
     write-host Downloading Chef Workstation failed!
   }
+} else {
+  write-host 'Chef Workstation is already installed!'
 }
 
 # Add chef-workstation to the path
@@ -136,12 +140,10 @@ if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
   $env:Path += ";C:\opscode\chef-workstation\bin"
 }
 
-Set-Location $userChefDir
-
 # Install Portable Git
 if (! ( get-command git -erroraction silentlycontinue )) {
   if ( ! ( test-path "$userChefDir\git_portable.exe" ) ) {
-    Write-Host 'Downloading Git Portable...'
+    Write-Host 'Downloading $portableGitSource to git_portable.exe...'
     # iwr $portableGitSource -outfile git_portable.exe
     $Wcl.DownloadFile($portableGitSource, 'git_portable.exe')
   }
@@ -154,6 +156,8 @@ if (! ( get-command git -erroraction silentlycontinue )) {
   if ( ! ( get-command git -erroraction silentlycontinue ) ) {
     $env:Path += ";$portableGitPath\bin"
   }
+} else {
+  write-host 'Git is already installed!'
 }
 
 write-host $env:path
