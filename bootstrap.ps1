@@ -121,13 +121,13 @@ Set-Location $userChefDir
 
 if ( -not $(test-path c:\opscode\chef-workstation) ) {
   write-host Please wait, downloading $chefWorkstationSource to chef.msi...
-  $Wcl.DownloadFile($chefWorkstationSource, 'chef.msi')
+  $Wcl.DownloadFile($chefWorkstationSource, "${userChefDir}\chef.msi")
 
   if (test-path 'chef.msi') {
     # Install chef-workstation .msi package from Chef
     if ( ! ( get-command chef -erroraction silentlycontinue ) ) {
       Write-Host 'Installing Chef Workstation...'
-      Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, chef.msi -verbose
+      Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, "${userChefDir}\chef.msi" -verbose
     }
 
   } else {
@@ -140,7 +140,7 @@ if ( -not $(test-path c:\opscode\chef-workstation) ) {
 # Add chef-workstation to the path
 if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
   $env:Path += ";C:\opscode\chef-workstation\bin"
-  del chef.msi
+  del "${userChefDir}\chef.msi"
 }
 
 # Install Portable Git
@@ -155,13 +155,14 @@ if (! ( get-command git -erroraction silentlycontinue )) {
     Write-Host 'Installing Git Portable...'
     Start-Process -filepath "${userChefDir}\git_portable.exe" -wait -argumentlist "-y -gm2 --InstallPath=`"$portableGitPath`""
   }
-
-  if ( ! ( get-command git -erroraction silentlycontinue ) ) {
-    $env:Path += ";$portableGitPath\bin"
-    del "${userChefDir}\git_portable.exe"
-  }
 } else {
   write-host 'Git is already installed!'
+}
+
+
+if ( ! ( get-command git -erroraction silentlycontinue ) ) {
+  $env:Path += ";$portableGitPath\bin"
+  del "${userChefDir}\git_portable.exe"
 }
 
 write-host $env:path
