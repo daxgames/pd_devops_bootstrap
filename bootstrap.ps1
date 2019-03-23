@@ -17,8 +17,8 @@ $proxyHost = 'htttp-proxy.bedbath.com'
 $proxyPort = '8080'
 
 netsh winhttp show proxy
-
 netsh winhttp set proxy $($proxyHost + ":" + $proxyPort)
+netsh winhttp show proxy
 
 $bootstrapCookbook = 'pd_devops_bootstrap'
 
