@@ -116,6 +116,8 @@ $chefConfig | Out-File -FilePath $chefConfigPath -Encoding ASCII
 
 Set-Location $userChefDir
 
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 if ( -not $(test-path c:\opscode\chef-workstation) ) {
   write-host Please wait, downloading $chefWorkstationSource to chef.msi...
   $Wcl.DownloadFile($chefWorkstationSource, 'chef.msi')
