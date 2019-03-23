@@ -43,6 +43,8 @@ $Wcl.proxy.BypassList = (($env:no_proxy).split(','))
 # $Creds=Get-Credential
 # $Wcl.Proxy.Credentials=$Creds
 
+# dir env:*_proxy
+
 $bootstrapCookbook = 'pd_devops_bootstrap'
 
 if ($args[0]) {
@@ -98,7 +100,6 @@ Clear-Host
 
 Write-Host $introduction
 
-dir env:*_proxy
 
 # create the chef directory
 if (!(Test-Path $userChefDir -pathType container)) {
@@ -129,7 +130,6 @@ if ( -not $(test-path c:\opscode\chef-workstation) ) {
       Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, chef.msi -verbose
     }
 
-    del chef.msi
   } else {
     write-host Downloading Chef Workstation failed!
   }
@@ -140,6 +140,7 @@ if ( -not $(test-path c:\opscode\chef-workstation) ) {
 # Add chef-workstation to the path
 if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
   $env:Path += ";C:\opscode\chef-workstation\bin"
+  del chef.msi
 }
 
 # Install Portable Git
@@ -147,16 +148,17 @@ if (! ( get-command git -erroraction silentlycontinue )) {
   if ( ! ( test-path "$userChefDir\git_portable.exe" ) ) {
     Write-Host Downloading $portableGitSource to git_portable.exe...
     # iwr $portableGitSource -outfile git_portable.exe
-    $Wcl.DownloadFile($portableGitSource, 'git_portable.exe')
+    $Wcl.DownloadFile($portableGitSource, "${userChefDir}\git_portable.exe")
   }
 
   if ( ! ( test-path "$portableGitPath\bin\git.exe" ) ) {
     Write-Host 'Installing Git Portable...'
-    Start-Process -filepath git_portable.exe -wait -argumentlist "-y -gm2 --InstallPath=`"$portableGitPath`""
+    Start-Process -filepath "${userChefDir}\git_portable.exe" -wait -argumentlist "-y -gm2 --InstallPath=`"$portableGitPath`""
   }
 
   if ( ! ( get-command git -erroraction silentlycontinue ) ) {
     $env:Path += ";$portableGitPath\bin"
+    del "${userChefDir}\git_portable.exe"
   }
 } else {
   write-host 'Git is already installed!'
