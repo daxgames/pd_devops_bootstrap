@@ -22,5 +22,5 @@ when 'rhel'
     yum_package package
   end
 
-  yum_package 'VirtualBox-5.0'
+  yum_package 'VirtualBox-6.0'
 end
