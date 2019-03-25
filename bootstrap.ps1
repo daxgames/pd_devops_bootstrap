@@ -167,13 +167,13 @@ $userId = Read-Host "Please enter your Github user id"
 $password = Read-Host -assecurestring "Please enter your Github password"
 $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
 
-if ( test-path $env:userprofile\.git-credential -and -not $(Select-String -Path $env:userprofile\.git-credential -Pattern "https:/${userId}:${password}@github.bedbath.com")) {
+if ( (test-path $env:userprofile\.git-credential) -and -not $(Select-String -Path $env:userprofile\.git-credential -Pattern "https:/${userId}:${password}@github.bedbath.com")) {
   "https:/${userId}:${password}@github.bedbath.com" | out-file -append $env:userprofile\.git-credential
 } else {
   "https:/${userId}:${password}@github.bedbath.com" | out-file -append $env:userprofile\.git-credential
 }
 
-if ( test-path $env:userprofile\.gitconfig -and -not $(Select-String -Path $env:userprofile\.gitconfig -Pattern "helper = store")) {
+if ( (test-path $env:userprofile\.gitconfig) -and -not $(Select-String -Path $env:userprofile\.gitconfig -Pattern "helper = store")) {
   "[credential]`n  helper = store"  | out-file -append $env:userprofile\.gitconfig
 } else {
   "[credential]`n  helper = store"  | out-file -append $env:userprofile\.gitconfig
