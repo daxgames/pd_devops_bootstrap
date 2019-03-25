@@ -191,7 +191,7 @@ write-host "choco feature enable -n allowEmptyChecksums"
 choco feature enable -n allowEmptyChecksums
 
 # run chef-client (installed by Chef Workstation) to bootstrap this machine
-$run_list = "$env:GeDevopsBootstrapSelections"
+$run_list = "$env:PD_DEVOPS_BOOTSTRAP_SELECTIONS"
 chef-client -A -z -l error -c $chefConfigPath -o $run_list
 
 write-host "choco feature disable -n allowEmptyChecksums"
