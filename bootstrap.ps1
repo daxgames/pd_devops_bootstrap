@@ -144,7 +144,7 @@ if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
 }
 
 # Install Portable Git
-if (! ( get-command git -erroraction silentlycontinue) -and ! ($env:path -match "$portableGitPath\bin\git.exe") ) {
+if (! ( get-command git -erroraction silentlycontinue) -and ! (test-path "$portableGitPath\bin\git.exe") ) {
   if ( ! ( test-path "$userChefDir\git_portable.exe" ) ) {
     Write-Host Downloading $portableGitSource to git_portable.exe...
     # iwr $portableGitSource -outfile git_portable.exe
@@ -169,7 +169,7 @@ $userId = Read-Host "Please enter your Github user id"
 $password = Read-Host -assecurestring "Please enter your Github password"
 $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
 
-if ( -not (test-path "$env:userprofile\.git-credential") -or -not $(Select-String -Path "$env:userprofile\.git-credential" -Pattern "https:/${userId}:${password}@github.bedbath.com")) {
+if ( -not (test-path "$env:userprofile\.git-credential") -or -not $(Select-String -Path "$env:userprofile\.git-credential" -Pattern "https://${userId}:${password}@github.bedbath.com")) {
   write-host "Updating $env:userprofile\.git-credential"
   "https://${userId}:${password}@github.bedbath.com" | out-file -encoding ascii -append "$env:userprofile\.git-credential"
 }
