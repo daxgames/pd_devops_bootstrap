@@ -165,14 +165,14 @@ if ( test-path "${userChefDir}\git_portable.exe" ) {
 }
 $env:Path += ";$portableGitPath\bin"
 
-$userId = Read-Host "Please enter your Github user id"
-$password = Read-Host -assecurestring "Please enter your Github password"
-$password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
-
-if ( ((test-path "$env:userprofile\.git-credentials") -and $(Select-String -Path "$env:userprofile\.git-credentials" -Pattern "https://${userId}:${password}@github.bedbath.com")) -eq $false ) {
-  write-host "Updating $env:userprofile\.git-credentials"
-  "https://${userId}:${password}@github.bedbath.com" | out-file -encoding ascii -append "$env:userprofile\.git-credentials"
-}
+# $userId = Read-Host "Please enter your Github user id"
+# $password = Read-Host -assecurestring "Please enter your Github password"
+# $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
+# 
+# if ( ((test-path "$env:userprofile\.git-credentials") -and $(Select-String -Path "$env:userprofile\.git-credentials" -Pattern "https://${userId}:${password}@github.bedbath.com")) -eq $false ) {
+#   write-host "Updating $env:userprofile\.git-credentials"
+#   "https://${userId}:${password}@github.bedbath.com" | out-file -encoding ascii -append "$env:userprofile\.git-credentials"
+# }
 
 if ( ((test-path "$env:userprofile\.gitconfig") -and $(Select-String -Path "$env:userprofile\.gitconfig" -Pattern "helper = store")) -eq $false ) {
   write-host Updating $env:userprofile\.gitconfig
