@@ -157,7 +157,7 @@ if (! ( get-command git -erroraction silentlycontinue -or $env:path -match "$por
   }
 }
 
-if (! ( get-command git -erroraction silentlycontinue ) {
+if (! ( get-command git -erroraction silentlycontinue )) {
   write-host 'Git is already installed!'
 } else {
   write-host 'Git is installed adding it to the path!'
