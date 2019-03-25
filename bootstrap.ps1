@@ -167,16 +167,13 @@ $userId = Read-Host "Please enter your Github user id"
 $password = Read-Host -assecurestring "Please enter your Github password"
 $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
 
-if ( -not (test-path $env:userprofile\.git-credential) -or -not $(Select-String -Path $env:userprofile\.git-credential -Pattern "https:/${userId}:${password}@github.bedbath.com")) {
-  "https:/${userId}:${password}@github.bedbath.com" | out-file -append $env:userprofile\.git-credential
-} else {
-  "https:/${userId}:${password}@github.bedbath.com" | out-file -append $env:userprofile\.git-credential
+if ( -not (test-path "$env:userprofile\\.git-credential") -or -not $(Select-String -Path "$env:userprofile\\.git-credential" -Pattern "https:/${userId}:${password}@github.bedbath.com")) {
+  write-host "Updating $env:userprofile\\.git-credential"
+  "https:/${userId}:${password}@github.bedbath.com" | out-file -append "$env:userprofile\\.git-credential"
 }
 
-if ( -not (test-path $env:userprofile\.gitconfig) -or -not $(Select-String -Path $env:userprofile\.gitconfig -Pattern "helper = store")) {
-  "[credential]`n  helper = store"  | out-file -append $env:userprofile\.gitconfig
-} else {
-  "[credential]`n  helper = store"  | out-file -append $env:userprofile\.gitconfig
+if ( -not (test-path "$env:userprofile\\.gitconfig") -or -not $(Select-String -Path "$env:userprofile\\.gitconfig" -Pattern "helper = store")) {
+  "[credential]`n  helper = store"  | out-file -append "$env:userprofile\\.gitconfig"
 }
 
 # Install the bootstrap cookbooks using Berkshelf
@@ -188,7 +185,7 @@ set-executionpolicy bypass
 if ( ! ( get-command choco -erroraction silentlycontinue ) ) {
   Write-Host 'Installing Chocolatey...'
   # iwr https://chocolatey.org/install.ps1 | iex
-  $Wcl.DownloadFile('https://chocolatey.org/install.ps1', "${userChefDir}\install.ps1")
+  $Wcl.DownloadFile('https://chocolatey.org/install.ps1', "${userChefDir}\\install.ps1")
 }
 
 write-host "================================================"
