@@ -157,21 +157,19 @@ if (! ( get-command git -erroraction silentlycontinue -or $env:path -match "$por
   }
 }
 
-if (! ( get-command git -erroraction silentlycontinue )) {
-  write-host 'Git is already installed!'
-} else {
-  write-host 'Git is installed adding it to the path!'
-  $env:Path += ";$portableGitPath\bin"
-}
 
 if ( test-path "${userChefDir}\git_portable.exe" ) {
   del "${userChefDir}\git_portable.exe"
 }
-
+write-host "==============================================================================="
 write-host $env:path
+write-host "==============================================================================="
+$env:Path += ";$portableGitPath\bin"
+write-host $env:path
+write-host "==============================================================================="
 
-$userId = Read-Host "Please enter your Github user id:"
-$password = Read-Host -assecurestring "Please enter your Github password: "
+$userId = Read-Host "Please enter your Github user id"
+$password = Read-Host -assecurestring "Please enter your Github password"
 $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
 
 "https:/${userId}:${password}@github.bedbath.com" | out-file -append $env:userprofile\.git-credential
