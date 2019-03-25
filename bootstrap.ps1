@@ -167,6 +167,13 @@ if ( ! ( get-command git -erroraction silentlycontinue ) ) {
 
 write-host $env:path
 
+$userId = Read-Host "Please enter your Github user id:"
+$password = Read-Host -assecurestring "Please enter your Github password: "
+$password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
+
+"https:/${userId}:${password}@github.bedbath.com" | out-file -append $env:userprofile\.git-credential
+"[credential]`n  helper = store"  | out-file -append $env:userprofile\.git-credential
+
 # Install the bootstrap cookbooks using Berkshelf
 berks vendor -c $berksconfPath
 
