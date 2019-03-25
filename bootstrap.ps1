@@ -161,19 +161,19 @@ if (! ( get-command git -erroraction silentlycontinue -or $env:path -match "$por
 if ( test-path "${userChefDir}\git_portable.exe" ) {
   del "${userChefDir}\git_portable.exe"
 }
-write-host "==============================================================================="
-write-host $env:path
-write-host "==============================================================================="
 $env:Path += ";$portableGitPath\bin"
-write-host $env:path
-write-host "==============================================================================="
 
 $userId = Read-Host "Please enter your Github user id"
 $password = Read-Host -assecurestring "Please enter your Github password"
 $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
 
-"https:/${userId}:${password}@github.bedbath.com" | out-file -append $env:userprofile\.git-credential
-"[credential]`n  helper = store"  | out-file -append $env:userprofile\.gitconfig
+if ( -not $(Select-String -Path $env:userprofile\.git-credential -Pattern "https:/${userId}:${password}@github.bedbath.com")) {
+  "https:/${userId}:${password}@github.bedbath.com" | out-file -append $env:userprofile\.git-credential
+}
+
+if ( -not $(Select-String -Path $env:userprofile\.git-credential -Pattern "helper = store")) {
+  "[credential]`n  helper = store"  | out-file -append $env:userprofile\.gitconfig
+}
 
 # Install the bootstrap cookbooks using Berkshelf
 berks vendor -c $berksconfPath
