@@ -1,6 +1,9 @@
 case node['platform_family']
 when 'windows'
-  chocolatey_package 'vagrant'
+  chocolatey_package 'vagrant' do
+    returns [0, 3010]
+  end
+
 when 'mac_os_x'
   homebrew_cask 'vagrant'
 when 'debian'
