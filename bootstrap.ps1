@@ -138,13 +138,13 @@ if ( -not $(test-path c:\opscode\chef-workstation) ) {
 }
 
 # Add chef-workstation to the path
-if ( ! ( $env:path -match "C:\opscode\chef-workstation\bin" ) ) {
+if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
   $env:Path += ";C:\opscode\chef-workstation\bin"
   del "${userChefDir}\chef.msi"
 }
 
 # Install Portable Git
-if (! ( get-command git -erroraction silentlycontinue) -and ! ($env:path -match "$portableGitPath\bin\git.exe") ) {
+if (! ( get-command git -erroraction silentlycontinue) -and ! ($env:path -match "$portableGitPath\\bin\\git.exe") ) {
   if ( ! ( test-path "$userChefDir\git_portable.exe" ) ) {
     Write-Host Downloading $portableGitSource to git_portable.exe...
     # iwr $portableGitSource -outfile git_portable.exe
