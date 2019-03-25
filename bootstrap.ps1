@@ -171,7 +171,7 @@ $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Ru
 
 if ( -not (test-path "$env:userprofile\.git-credential") -or -not $(Select-String -Path "$env:userprofile\.git-credential" -Pattern "https:/${userId}:${password}@github.bedbath.com")) {
   write-host "Updating $env:userprofile\.git-credential"
-  "https:/${userId}:${password}@github.bedbath.com" | out-file -encoding ascii -append "$env:userprofile\.git-credential"
+  "https://${userId}:${password}@github.bedbath.com" | out-file -encoding ascii -append "$env:userprofile\.git-credential"
 }
 
 if ( -not (test-path "$env:userprofile\.gitconfig") -or -not $(Select-String -Path "$env:userprofile\.gitconfig" -Pattern "helper = store")) {
