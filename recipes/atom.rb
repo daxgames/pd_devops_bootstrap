@@ -1,6 +1,6 @@
 case node['platform_family']
 when 'windows'
-  chocolatey "dotnet4.5.2"
+  chocolatey_package "dotnet4.5.2"
   atom_setup = File.join(Chef::Config[:file_cache_path], 'AtomSetup.exe')
 
   remote_file atom_setup do

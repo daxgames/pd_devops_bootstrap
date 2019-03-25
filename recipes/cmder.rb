@@ -1,1 +1,1 @@
-chocolatey 'cmder'
+chocolatey_package 'cmder'

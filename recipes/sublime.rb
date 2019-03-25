@@ -1,6 +1,6 @@
 case node['platform_family']
 when 'windows'
-  chocolatey 'sublimetext2'
+  chocolatey_package 'sublimetext2'
 when 'mac_os_x'
   homebrew_cask 'sublime-text'
 when 'debian'

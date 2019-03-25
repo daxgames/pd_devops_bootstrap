@@ -1,4 +1,4 @@
-include_recipe 'chocolatey'
+include_recipe 'chocolatey_package'
 
 # install chefdk
 # Start-Process -Wait -FilePath msiexec.exe -ArgumentList /qb, /i, $chefDkSource

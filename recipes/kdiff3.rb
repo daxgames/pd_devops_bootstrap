@@ -1,1 +1,1 @@
-chocolatey 'kdiff3'
+chocolatey_package 'kdiff3'

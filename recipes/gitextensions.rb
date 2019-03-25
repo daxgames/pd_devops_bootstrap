@@ -1,1 +1,1 @@
-chocolatey 'gitextensions'
+chocolatey_package 'gitextensions'

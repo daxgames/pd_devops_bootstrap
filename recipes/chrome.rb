@@ -1,6 +1,6 @@
 case node['platform_family']
 when 'windows'
-  chocolatey 'googlechrome'
+  chocolatey_package 'googlechrome'
 when 'mac_os_x'
   homebrew_cask 'google-chrome'
 when 'debian'

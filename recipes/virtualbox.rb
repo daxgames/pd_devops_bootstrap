@@ -1,6 +1,6 @@
 case node['platform_family']
 when 'windows'
-  chocolatey 'virtualbox' do
+  chocolatey_package 'virtualbox' do
     version '4.3.12'
   end
 when 'mac_os_x'

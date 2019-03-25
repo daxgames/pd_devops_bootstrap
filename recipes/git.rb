@@ -6,8 +6,8 @@ when 'windows'
     windows_package_checksum 'fd1937ea8468461d35d9cabfcdd2daa3a74509dc9213c43c2b9615e8f0b85086'
   end
 
-  chocolatey 'git-credential-winstore'
-  chocolatey 'poshgit'
+  chocolatey_package 'git-credential-winstore'
+  chocolatey_package 'poshgit'
 when 'mac_os_x'
   homebrew_package 'git'
 when 'debian'
