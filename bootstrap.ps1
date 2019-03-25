@@ -144,7 +144,7 @@ if ( ! ( $env:path -match "C:\\opscode\\chef-workstation\\bin" ) ) {
 }
 
 # Install Portable Git
-if (! ( get-command git -erroraction silentlycontinue )) {
+if (! ( get-command git -erroraction silentlycontinue -or $env:path -match "$portableGitPath\bin\git.exe")) {
   if ( ! ( test-path "$userChefDir\git_portable.exe" ) ) {
     Write-Host Downloading $portableGitSource to git_portable.exe...
     # iwr $portableGitSource -outfile git_portable.exe
@@ -155,13 +155,16 @@ if (! ( get-command git -erroraction silentlycontinue )) {
     Write-Host 'Installing Git Portable...'
     Start-Process -filepath "${userChefDir}\git_portable.exe" -wait -argumentlist "-y -gm2 --InstallPath=`"$portableGitPath`""
   }
-} else {
-  write-host 'Git is already installed!'
 }
 
-
-if ( ! ( get-command git -erroraction silentlycontinue ) ) {
+if (! ( get-command git -erroraction silentlycontinue ) {
+  write-host 'Git is already installed!'
+} else {
+  write-host 'Git is installed adding it to the path!'
   $env:Path += ";$portableGitPath\bin"
+}
+
+if ( test-path "${userChefDir}\git_portable.exe" ) {
   del "${userChefDir}\git_portable.exe"
 }
 
@@ -172,7 +175,7 @@ $password = Read-Host -assecurestring "Please enter your Github password: "
 $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
 
 "https:/${userId}:${password}@github.bedbath.com" | out-file -append $env:userprofile\.git-credential
-"[credential]`n  helper = store"  | out-file -append $env:userprofile\.git-credential
+"[credential]`n  helper = store"  | out-file -append $env:userprofile\.gitconfig
 
 # Install the bootstrap cookbooks using Berkshelf
 berks vendor -c $berksconfPath
