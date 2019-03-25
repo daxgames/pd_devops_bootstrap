@@ -155,6 +155,8 @@ if (! ( get-command git -erroraction silentlycontinue) -and ! ($env:path -match 
     Write-Host 'Installing Git Portable...'
     Start-Process -filepath "${userChefDir}\git_portable.exe" -wait -argumentlist "-y -gm2 --InstallPath=`"$portableGitPath`""
   }
+} else {
+  write-host "Git is already installed!"
 }
 
 
@@ -173,6 +175,7 @@ if ( -not (test-path "$env:userprofile\\.git-credential") -or -not $(Select-Stri
 }
 
 if ( -not (test-path "$env:userprofile\\.gitconfig") -or -not $(Select-String -Path "$env:userprofile\\.gitconfig" -Pattern "helper = store")) {
+  write-host Updating $env:userprofile\\.gitconfig
   "[credential]`n  helper = store"  | out-file -append "$env:userprofile\\.gitconfig"
 }
 
