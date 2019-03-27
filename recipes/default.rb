@@ -8,7 +8,6 @@
 if node['platform_family'] == 'debian'
   include_recipe "#{cookbook_name}::ubuntu"
 elsif node['platform_family'] == 'rhel'
-  yum_package 'epel-release'
   include_recipe "#{cookbook_name}::centos_rhel"
 else
   include_recipe "#{cookbook_name}::#{node['platform_family']}"

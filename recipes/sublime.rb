@@ -18,7 +18,7 @@ cd ~
 curl http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2%20x64.tar.bz2 > sublime.tar.bz2
 tar vxjf sublime.tar.bz2
 mv 'Sublime Text 2' /opt/SublimeText2
-ln -s /opt/SublimeText2/sublime_text /usr/bin/sublime
+ln -sf /opt/SublimeText2/sublime_text /usr/bin/sublime
     EOH
     not_if { ::File.exists?('/usr/bin/sublime') }
   end
