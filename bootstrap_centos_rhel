@@ -90,7 +90,7 @@ sudo yum -y install git
 berks vendor
 
 # run chef-client (installed by Chef Workstation) to bootstrap this machine
-sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "$PD_DEVOPS_BOOTSTRAP_SELECTIONS"
+sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "pd_devops_bootstrap::default,$PD_DEVOPS_BOOTSTRAP_SELECTIONS"
 
 # cleanup
 [[ -f "${userChefDir}/berksfile" ]] && rm "${userChefDir}/berksfile"
