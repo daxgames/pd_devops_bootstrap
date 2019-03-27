@@ -33,6 +33,8 @@ when 'rhel'
 
   yum_package 'redhat-lsb-core'
 
+  yum_package 'libXScrnSaver'
+
   rpm_package 'atom.rpm' do
     source '/tmp/atom.rpm'
   end
