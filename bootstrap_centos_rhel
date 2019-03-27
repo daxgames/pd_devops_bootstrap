@@ -73,6 +73,7 @@ export PD_SW_CHEFWS_VER=0.2.48
 if [ ! -f chef_workstation_${PD_SW_CHEFWS_VER}.rpm ] ; then
   echo Downlaoding Chef Workstation...
   curl http://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/el/7/chef-workstation-${PD_SW_CHEFWS_VER}-1.el6.x86_64.rpm > chef_workstation_${PD_SW_CHEFWS_VER}.rpm
+  new_download=1
 fi
 
 if [ ! -d /opt/chef-workstation ] || [ "${new_download}" == "1" ] ; then
