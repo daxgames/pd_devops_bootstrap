@@ -58,7 +58,6 @@ cat > "${userChefDir}/Berksfile" <<EOF
 source 'https://supermarket.chef.io'
 "${private_source}"
 
-# cookbook '${bootstrapCookbook}', git: 'https://github.bedbath.com/pipedream/pd_devops_bootstrap.git'
 cookbook '${bootstrapCookbook}', git: 'https://github.com/daxgames/pd_devops_bootstrap.git'
 EOF
 
@@ -76,7 +75,7 @@ if [ ! -f chef_workstation_${PD_SW_CHEFWS_VER}.rpm ] ; then
   curl http://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/el/7/chef-workstation-${PD_SW_CHEFWS_VER}-1.el6.x86_64.rpm > chef_workstation_${PD_SW_CHEFWS_VER}.rpm
 fi
 
-if [ ! -d /opt/chef_workstation ] || [ "${new_download}" == "1" ] ; then
+if [ ! -d /opt/chef-workstation ] || [ "${new_download}" == "1" ] ; then
   echo Installing Chef Workstation...
   sudo rpm -Uvh chef_workstation_${PD_SW_CHEFWS_VER}.rpm
 fi
