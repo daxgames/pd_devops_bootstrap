@@ -4,7 +4,7 @@ maintainer_email 'devops-eng@bedbath.com'
 license 'all_rights'
 description 'Installs/Configures pd_devops_bootstrap'
 long_description 'Installs/Configures pd_devops_bootstrap'
-version '0.2.4'
+version '0.2.5'
 
 supports 'mac_os_x'
 supports 'windows'
