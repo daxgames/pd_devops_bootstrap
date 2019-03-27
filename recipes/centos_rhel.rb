@@ -1,6 +1,7 @@
 packages = node['packages']
 
-yum_package 'epel-release'
+p "Platform: #{node['platform']}"
+p "Platform Version: #{node['platform_version']}"
 
 remote_file '/tmp/epel.rpm' do
   source 'https://dl.fedoraproject.org/pub/epel/6/x86_64/Packages/e/epel-release-6-8.noarch.rpm'
