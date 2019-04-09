@@ -13,34 +13,40 @@
 
 # Clear-Host
 
-$proxyHost = 'htttp-proxy.bedbath.com'
-$proxyPort = '8080'
-
-$proxyHost = '192.168.20.155'
-$proxyPort = '3128'
-
-# Set Proxy for this session
-if ( ! ( test-path env:http_proxy ) ) {
-  write-host "Setting http_proxy=http://${proxyHost}:${proxyPort}"
-  $env:http_proxy="http://${proxyHost}:${proxyPort}"
-}
-
-if ( ! ( test-path env:https_proxy ) ) {
-  write-host "Setting https_proxy=http://${proxyHost}:${proxyPort}"
-  $env:https_proxy="http://${proxyHost}:${proxyPort}"
-}
-
-if ( ! ( test-path env:no_proxy ) ) {
-  write-host "Setting no_proxy=127.0.0.1,localhost,github.bedbath.com"
-  $env:no_proxy = "127.0.0.1,localhost,github.bedbath.com"
-} elseif ( ! ( $env:no_proxy -match "github.bedbath.com" ) ) {
-  write-host "Setting no_proxy=$env:no_proxy,github.bedbath.com"
-  $env:no_proxy += ",github.bedbath.com"
-}
-
+# $proxyHost = 'htttp-proxy.bedbath.com'
+# $proxyPort = '8080'
+# 
+# $proxyHost = '192.168.20.155'
+# $proxyPort = '3128'
+# 
+# # Set Proxy for this session
+# if ( ! ( test-path env:http_proxy ) ) {
+#   write-host "Setting http_proxy=http://${proxyHost}:${proxyPort}"
+#   $env:http_proxy="http://${proxyHost}:${proxyPort}"
+# }
+# 
+# if ( ! ( test-path env:https_proxy ) ) {
+#   write-host "Setting https_proxy=http://${proxyHost}:${proxyPort}"
+#   $env:https_proxy="http://${proxyHost}:${proxyPort}"
+# }
+# 
+# if ( ! ( test-path env:no_proxy ) ) {
+#   write-host "Setting no_proxy=127.0.0.1,localhost,github.bedbath.com"
+#   $env:no_proxy = "127.0.0.1,localhost,github.bedbath.com"
+# } elseif ( ! ( $env:no_proxy -match "github.bedbath.com" ) ) {
+#   write-host "Setting no_proxy=$env:no_proxy,github.bedbath.com"
+#   $env:no_proxy += ",github.bedbath.com"
+# }
+# 
 $Wcl=New-Object System.Net.WebClient
-$Wcl.proxy = (new-object System.Net.WebProxy($env:http_proxy))
-$Wcl.proxy.BypassList = (($env:no_proxy).split(','))
+
+if ((test-path env:http_proxy)) {
+  $Wcl.proxy = (new-object System.Net.WebProxy($env:http_proxy))
+}
+
+if ((test-path env:no_proxy)) {
+  $Wcl.proxy.BypassList = (($env:no_proxy).split(','))
+}
 
 # write-host $("Please enter credentials for " + $env:http_proxy)
 # $Creds=Get-Credential
