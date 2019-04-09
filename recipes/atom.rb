@@ -31,7 +31,9 @@ when 'rhel'
     source node['atom']['centos_rhel']['source_url']
   end
 
-  rpm_package 'redhat-lsb-core'
+  rpm_package 'redhat-lsb-core' do
+    source '/tmp/atom.rpm'
+  end
 
   yum_package 'libXScrnSaver'
 
