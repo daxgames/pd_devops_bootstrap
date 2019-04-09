@@ -39,10 +39,9 @@ This script will:
 5. Run 'chef-client' to install the rest of the tools you will need
 EOF
 
-echo Adding proxy to /etc/yum.conf
+echo "Adding proxy to /etc/yum.conf"
 sudo cp /etc/yum.conf /etc/yum.conf.bak
 sudo echo proxy=$http_proxy>>/etc/yum.conf
-
 
 # creating a Chef directory for Chef development
 if [ ! -d "${userChefDir}" ] ; then
