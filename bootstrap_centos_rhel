@@ -41,7 +41,7 @@ EOF
 
 echo "Adding proxy to /etc/yum.conf"
 sudo cp /etc/yum.conf /etc/yum.conf.bak
-echo "proxy=$http_proxy" | tee --append /etc/yum.conf
+echo "proxy=$http_proxy" | sudo tee --append /etc/yum.conf
 
 # creating a Chef directory for Chef development
 if [ ! -d "${userChefDir}" ] ; then
