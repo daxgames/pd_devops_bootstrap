@@ -95,6 +95,9 @@ sudo yum -y update --exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.
 sudo yum -y install git
 
 # making sure that we are vendor cookbooks into a sub directory of the userChefDir
+if [ -f $HOME/chef/Berksfile.lock ] ; then
+  rm Berksfile.lock
+fi
 berks vendor
 
 # run chef-client (installed by Chef Workstation) to bootstrap this machine
