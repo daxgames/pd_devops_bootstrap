@@ -39,6 +39,11 @@ This script will:
 5. Run 'chef-client' to install the rest of the tools you will need
 EOF
 
+echo Adding proxy to /etc/yum.conf
+sudo cp /etc/yum.conf /etc/yum.conf.bak
+sudo echo proxy=$http_proxy>>/etc/yum.conf
+
+
 # creating a Chef directory for Chef development
 if [ ! -d "${userChefDir}" ] ; then
   mkdir "${userChefDir}"
@@ -81,11 +86,6 @@ if [ ! -d /opt/chef-workstation ] || [ "${new_download}" == "1" ] ; then
   echo Installing Chef Workstation...
   sudo rpm -Uvh chef_workstation_${PD_SW_CHEFWS_VER}.rpm
 fi
-
-echo Adding proxy to /etc/yum.conf
-sudo cp /etc/yum.conf /etc/yum.conf.bak
-sudo echo proxy=$http_proxy>>/etc/yum.conf
-
 
 # chef needs git installed to pull down cookbooks
 sudo yum -y update --exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch
