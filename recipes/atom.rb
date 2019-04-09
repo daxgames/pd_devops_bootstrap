@@ -31,7 +31,10 @@ when 'rhel'
     source node['atom']['centos_rhel']['source_url']
   end
 
-  yum_package 'redhat-lsb-core'
+  yum_package 'redhat-lsb-core' do
+    install [:install, :lock]
+    options '--exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch'
+  end
 
   yum_package 'libXScrnSaver'
 
