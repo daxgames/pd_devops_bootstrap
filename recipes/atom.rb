@@ -32,7 +32,7 @@ when 'rhel'
   end
 
   yum_package 'redhat-lsb-core' do
-    install [:install, :lock]
+    action [:install, :lock]
     options '--exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch'
   end
 
