@@ -9,6 +9,7 @@ if node['platform_family'] == 'debian'
   include_recipe "#{cookbook_name}::ubuntu"
 elsif node['platform_family'] == 'rhel'
   p "Platform: #{node['platform']}"
+  p "Platform Family: #{node['platform_family']}"
   p "Platform Version: #{node['platform_version']}"
 
   remote_file '/tmp/epel-release.rpm' do

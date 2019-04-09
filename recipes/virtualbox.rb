@@ -14,9 +14,9 @@ when 'rhel'
     enabled true
   end
 
-  bash 'yum update' do
-    code "yum update"
-  end
+  # bash 'yum update' do
+  #   code "yum update"
+  # end
 
   %w(binutils qt gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel dkms).each do |package|
     yum_package package
