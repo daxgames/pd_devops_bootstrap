@@ -8,7 +8,7 @@ when 'debian'
   apt_package 'virtualbox'
 when 'rhel'
   yum_repository 'virtualbox' do
-  baseurl "http://download.virtualbox.org/virtualbox/rpm/el/#{node['platform_version']}/$basearch"
+  baseurl "http://download.virtualbox.org/virtualbox/rpm/el/#{node['platform_version'].split('.')[0]}/$basearch"
     gpgkey 'https://www.virtualbox.org/download/oracle_vbox.asc'
     gpgcheck false
     enabled true
