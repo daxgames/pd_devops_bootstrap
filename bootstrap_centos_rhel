@@ -43,6 +43,10 @@ echo "Adding proxy to /etc/yum.conf"
 sudo cp /etc/yum.conf /etc/yum.conf.bak
 echo "proxy=$http_proxy" | sudo tee --append /etc/yum.conf
 
+echo "Adding proxy to /etc/environment"
+sudo cp /etc/environment /etc/environment.bak
+echo "proxy=$http_proxy" | sudo tee --append /etc/environment
+
 # creating a Chef directory for Chef development
 if [ ! -d "${userChefDir}" ] ; then
   mkdir "${userChefDir}"
@@ -104,6 +108,7 @@ sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "pd_devops_boot
 [[ -d berks-cookbooks ]] && rm -r berks-cookbooks
 
 sudo mv /etc/yum.conf.bak /etc/yum.conf
+sudo mv /etc/environment.bak /etc/environment
 
 #End message to direct CentOS RHEL users to last step in set up
 cat <<EOF
