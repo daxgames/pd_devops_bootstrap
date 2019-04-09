@@ -39,13 +39,17 @@ This script will:
 5. Run 'chef-client' to install the rest of the tools you will need
 EOF
 
-echo "Adding proxy to /etc/yum.conf"
-sudo cp /etc/yum.conf /etc/yum.conf.bak
-echo "proxy=$http_proxy" | sudo tee --append /etc/yum.conf
+if [[ ! -f /etc/yum.conf.bak ]] && [[ ! -z ${http_proxy+x} ]] ; then
+  echo "Adding proxy to /etc/yum.conf"
+  sudo cp /etc/yum.conf /etc/yum.conf.bak
+  echo "proxy=$http_proxy" | sudo tee --append /etc/yum.conf
+fi
 
-echo "Adding proxy to /etc/environment"
-sudo cp /etc/environment /etc/environment.bak
-echo "proxy=$http_proxy" | sudo tee --append /etc/environment
+if [[ ! -f /etc/environments.bak ]] && [[ ! -z ${http_proxy+x} ]] ; then
+  echo "Adding proxy to /etc/environment"
+  sudo cp /etc/environment /etc/environment.bak
+  echo "proxy=$http_proxy" | sudo tee --append /etc/environment
+fi
 
 # creating a Chef directory for Chef development
 if [ ! -d "${userChefDir}" ] ; then
@@ -91,7 +95,8 @@ if [ ! -d /opt/chef-workstation ] || [ "${new_download}" == "1" ] ; then
 fi
 
 # chef needs git installed to pull down cookbooks
-sudo yum -y update --exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch
+# sudo yum -y update --exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch
+sudo yum -y update --exclude=stub-redhat-lsb-core-only-for-ceph
 sudo yum -y install git
 
 # making sure that we are vendor cookbooks into a sub directory of the userChefDir
@@ -110,8 +115,13 @@ sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "pd_devops_boot
 [[ -f "${userChefDir}/client.rb" ]] && rm "${userChefDir}/client.rb"
 [[ -d berks-cookbooks ]] && rm -r berks-cookbooks
 
-sudo mv /etc/yum.conf.bak /etc/yum.conf
-sudo mv /etc/environment.bak /etc/environment
+if [[ -f /etc/yum.conf.bak ]] && [[ ! -z ${http_proxy+x} ]] ; then
+  sudo mv /etc/yum.conf.bak /etc/yum.conf
+fi
+
+if [[ -f /etc/environment.bak ]] && [[ ! -z ${http_proxy+x} ]]; then
+  sudo mv /etc/environment.bak /etc/environments.bak
+fi
 
 #End message to direct CentOS RHEL users to last step in set up
 cat <<EOF

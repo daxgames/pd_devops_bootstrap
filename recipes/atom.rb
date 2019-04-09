@@ -33,7 +33,8 @@ when 'rhel'
 
   yum_package 'redhat-lsb-core' do
     action :install
-    options '--exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch'
+    # options '--exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch'
+    options '--exclude=stub-redhat-lsb-core-only-for-ceph'
   end
 
   yum_package 'libXScrnSaver'
