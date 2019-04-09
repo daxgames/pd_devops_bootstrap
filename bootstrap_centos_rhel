@@ -82,6 +82,11 @@ if [ ! -d /opt/chef-workstation ] || [ "${new_download}" == "1" ] ; then
   sudo rpm -Uvh chef_workstation_${PD_SW_CHEFWS_VER}.rpm
 fi
 
+echo Adding proxy to /etc/yum.conf
+sudo cp /etc/yum.conf /etc/yum.conf.bak
+sudo echo proxy=$http_proxy>>/etc/yum.conf
+
+
 # chef needs git installed to pull down cookbooks
 sudo yum -y update --exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch
 sudo yum -y install git
@@ -89,8 +94,6 @@ sudo yum -y install git
 # making sure that we are vendor cookbooks into a sub directory of the userChefDir
 berks vendor
 
-sudo cp /etc/yum.conf /etc/yum.conf.bak
-echo proxy=$http_proxy>>/etc/yum.conf
 # run chef-client (installed by Chef Workstation) to bootstrap this machine
 sudo -E chef-client -z -l error -c "${userChefDir}/client.rb" -o "pd_devops_bootstrap::default,$PD_DEVOPS_BOOTSTRAP_SELECTIONS"
 
