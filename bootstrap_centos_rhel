@@ -83,7 +83,7 @@ if [ ! -d /opt/chef-workstation ] || [ "${new_download}" == "1" ] ; then
 fi
 
 # chef needs git installed to pull down cookbooks
-sudo yum -y update
+sudo yum -y update --exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch
 sudo yum -y install git
 
 # making sure that we are vendor cookbooks into a sub directory of the userChefDir
