@@ -76,6 +76,8 @@ fi
 
 brew install git
 
+git config --global credential.helper store
+
 # install chefDK
 brew cask install chef/chef/chef-workstation
 
