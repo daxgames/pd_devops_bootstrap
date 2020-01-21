@@ -77,7 +77,7 @@ fi
 # install brew-cask
 if [ ! -d /usr/local/Cellar/brew-cask ] ; then
   Echo "Installing 'brew-cask'"
-  brew tap caskroom/cask
+  brew tap cask-cask
 else
   echo 'Homebrew Cask is already installed.'
 fi
