@@ -70,7 +70,7 @@ EOF
 # install chef-workstation
 cd "${userChefDir}"
 # no need to download more than once while testing
-PD_SW_CHEFWS_VER=0.2.48
+PD_SW_CHEFWS_VER=0.3.2
 ubuntu_ver=$(lsb_release -r | awk '{print $NF}')
 if [ ! -f chef_workstation_${PD_SW_CHEFWS_VER}.deb ] ; then
   echo curl https://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/ubuntu/${ubuntu_ver}/chef-workstation_${PD_SW_CHEFWS_VER}-1_amd64.deb > chef_workstation_${chef_workstation_ver}.deb

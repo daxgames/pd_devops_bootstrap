@@ -64,7 +64,7 @@ if ($args[1]) {
   $privateSource = "source '$args[1]'"
 }
 
-$chefWorkstationSource = 'https://packages.chef.io/files/stable/chef-workstation/0.2.48/windows/2016/chef-workstation-0.2.48-1-x64.msi'
+$chefWorkstationSource = 'https://packages.chef.io/files/stable/chef-workstation/0.3.2/windows/2012/chef-workstation-0.3.2-1-x64.msi'
 $portableGitSource = 'https://github.com/git-for-windows/git/releases/download/v2.21.0.windows.1/PortableGit-2.21.0-64-bit.7z.exe'
 
 $userChefDir = Join-Path -path $env:USERPROFILE -childPath 'chef'

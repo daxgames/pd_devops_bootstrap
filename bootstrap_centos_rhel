@@ -80,7 +80,8 @@ EOF
 
 # # install chef-workstation
 cd "${userChefDir}"
-export PD_SW_CHEFWS_VER=0.2.48
+export PD_SW_CHEFWS_VER=0.3.2
+
 # no need to download more than once while testing
 new_download=0
 if [ ! -f chef_workstation_${PD_SW_CHEFWS_VER}.rpm ] ; then
