@@ -5,8 +5,14 @@ include_recipe 'chocolatey_package'
 
 powershell_script "choco feature enable -n allowEmptyChecksums" do
  code <<-EOH
-   powershell "choco feature enable -n allowEmptyChecksums"
+   choco feature enable -n allowEmptyChecksums
  EOH
+end
+
+powershell_script 'Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All' do
+  code <<-EOH
+    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+  EOH
 end
 
 packages = node['packages']
@@ -15,7 +21,7 @@ end
 
 powershell_script "choco feature disable -n allowEmptyChecksums" do
   code <<-EOH
-    powershell "choco feature disable -n allowEmptyChecksums"
+    choco feature disable -n allowEmptyChecksums
   EOH
 end
 
