@@ -74,13 +74,7 @@ else
   echo 'Homebrew is already installed.'
 fi
 
-# # install brew-cask
-# if [ ! -d /usr/local/Cellar/brew-cask ] ; then
-#   Echo "Installing 'brew-cask'"
-#   brew tap cask-cask
-# else
-#   echo 'Homebrew Cask is already installed.'
-# fi
+brew install git
 
 # install chefDK
 brew cask install chef/chef/chef-workstation
