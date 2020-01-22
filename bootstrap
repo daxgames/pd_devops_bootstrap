@@ -59,7 +59,7 @@ cat > "${userChefDir}/Berksfile" <<EOF;
 source 'https://supermarket.chef.io'
 "${private_source}"
 
-cookbook '${bootstrapCookbook}', git: 'https://github.bedbath.com/pipedream/pd_devops_bootstrap.git'
+cookbook '${bootstrapCookbook}', git: 'https://github.com/daxgames/pd_devops_bootstrap.git'
 EOF
 
 # create client.rb file so that Chef client can find its dependant cookbooks
@@ -78,8 +78,9 @@ brew install git
 
 git config --global credential.helper store
 
-# install chefDK
-brew cask install chef/chef/chef-workstation
+# install chef workstation
+# brew cask install chef/chef/chef-workstation
+curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -v 0.3.2 -P chef-workstation
 
 # making sure that we are vendor cookbooks into a sub directory of the userChefDir
 cd "${userChefDir}"

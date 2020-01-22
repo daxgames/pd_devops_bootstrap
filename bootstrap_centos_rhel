@@ -78,22 +78,25 @@ cat > "${userChefDir}/client.rb" <<EOF
 cookbook_path File.join(Dir.pwd, 'berks-cookbooks')
 EOF
 
-# # install chef-workstation
-cd "${userChefDir}"
-export PD_SW_CHEFWS_VER=0.3.2
+# # # install chef-workstation
+# cd "${userChefDir}"
+# export PD_SW_CHEFWS_VER=0.3.2
+# 
+# # no need to download more than once while testing
+# new_download=0
+# if [ ! -f chef_workstation_${PD_SW_CHEFWS_VER}.rpm ] ; then
+#   echo Downlaoding Chef Workstation...
+#   curl http://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/el/7/chef-workstation-${PD_SW_CHEFWS_VER}-1.el6.x86_64.rpm > chef_workstation_${PD_SW_CHEFWS_VER}.rpm
+#   new_download=1
+# fi
+# 
+# if [ ! -d /opt/chef-workstation ] || [ "${new_download}" == "1" ] ; then
+#   echo Installing Chef Workstation...
+#   sudo rpm -Uvh chef_workstation_${PD_SW_CHEFWS_VER}.rpm
+# fi
 
-# no need to download more than once while testing
-new_download=0
-if [ ! -f chef_workstation_${PD_SW_CHEFWS_VER}.rpm ] ; then
-  echo Downlaoding Chef Workstation...
-  curl http://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/el/7/chef-workstation-${PD_SW_CHEFWS_VER}-1.el6.x86_64.rpm > chef_workstation_${PD_SW_CHEFWS_VER}.rpm
-  new_download=1
-fi
-
-if [ ! -d /opt/chef-workstation ] || [ "${new_download}" == "1" ] ; then
-  echo Installing Chef Workstation...
-  sudo rpm -Uvh chef_workstation_${PD_SW_CHEFWS_VER}.rpm
-fi
+echo Installing Chef Workstation...
+curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -v 0.3.2 -P chef-workstation
 
 # chef needs git installed to pull down cookbooks
 # sudo yum -y update --exclude=stub-redhat-lsb-core-only-for-ceph-2015.1-1.atomic.el7.noarch

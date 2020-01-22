@@ -58,7 +58,7 @@ cat > "${userChefDir}/Berksfile" <<EOF
 source 'https://supermarket.chef.io'
 "${private_source}"
 
-cookbook '${bootstrapCookbook}', git: 'https://github.bedbath.com/pipedream/pd_devops_bootstrap.git'
+cookbook '${bootstrapCookbook}', git: 'https://github.com/daxgames/pd_devops_bootstrap.git'
 EOF
 
 # create client.rb file so that Chef client can find its dependant cookbooks
@@ -67,20 +67,23 @@ cookbook_path File.join(Dir.pwd, 'berks-cookbooks')
 EOF
 
 
-# install chef-workstation
-cd "${userChefDir}"
-# no need to download more than once while testing
-PD_SW_CHEFWS_VER=0.3.2
-ubuntu_ver=$(lsb_release -r | awk '{print $NF}')
-if [ ! -f chef_workstation_${PD_SW_CHEFWS_VER}.deb ] ; then
-  echo curl https://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/ubuntu/${ubuntu_ver}/chef-workstation_${PD_SW_CHEFWS_VER}-1_amd64.deb > chef_workstation_${chef_workstation_ver}.deb
-  curl https://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/ubuntu/${ubuntu_ver}/chef-workstation_${PD_SW_CHEFWS_VER}-1_amd64.deb > chef_workstation_${chef_workstation_ver}.deb
-  new_download=1
-fi
+# # install chef-workstation
+# cd "${userChefDir}"
+# # no need to download more than once while testing
+# PD_SW_CHEFWS_VER=0.3.2
+# ubuntu_ver=$(lsb_release -r | awk '{print $NF}')
+# if [ ! -f chef_workstation_${PD_SW_CHEFWS_VER}.deb ] ; then
+#   echo curl https://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/ubuntu/${ubuntu_ver}/chef-workstation_${PD_SW_CHEFWS_VER}-1_amd64.deb > chef_workstation_${chef_workstation_ver}.deb
+#   curl https://packages.chef.io/files/stable/chef-workstation/${PD_SW_CHEFWS_VER}/ubuntu/${ubuntu_ver}/chef-workstation_${PD_SW_CHEFWS_VER}-1_amd64.deb > chef_workstation_${chef_workstation_ver}.deb
+#   new_download=1
+# fi
+# 
+# if [ ! -d /opt/chef_workstation ] || [ "${new_download}" == "1" ] ; then
+#   sudo dpkg -i chef_workstation_${chef_workstation_ver}.deb
+# fi
 
-if [ ! -d /opt/chef_workstation ] || [ "${new_download}" == "1" ] ; then
-  sudo dpkg -i chef_workstation_${chef_workstation_ver}.deb
-fi
+echo Installing Chef Workstation...
+curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -v 0.3.2 -P chef-workstation
 
 # chef needs git installed to pull down cookbooks
 sudo apt-get update --yes
