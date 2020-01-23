@@ -56,7 +56,8 @@ end
 default['atom']['windows']['source_url']      = 'https://atom.io/download/windows'
 default['atom']['centos_rhel']['source_url']  = 'https://github.com/atom/atom/releases/download/v1.36.0-beta2/atom.x86_64.rpm'
 default['opera']['centos_rhel']['source_url'] = 'http://get.geo.opera.com/pub/opera/desktop/58.0.3135.79/linux/opera-stable_58.0.3135.79_amd64.rpm'
-default['sococo']['windows']['source_url']    = 'https://s.sococo.com/rs/client/win64/Sococo-x64-6.5.0-20771.exe'
+default['sococo']['windows']['source_url']    = 'https://s.sococo.com/rs/client/mac/12-09-2019-SococoProd.exe'
+default['sococo']['mac_os_x']['source_url']   = 'https://s.sococo.com/rs/client/mac/12-09-2019-SococoProd.dmg'
 
 default['pd_devops_bootstrap']['proxy']['http']           = ENV['http_proxy']
 default['pd_devops_bootstrap']['proxy']['https']          = ENV['https_proxy']
