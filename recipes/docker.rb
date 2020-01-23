@@ -2,7 +2,7 @@ case node['platform_family']
 when 'windows'
   fail 'Need to find a way to install.'
 when 'mac_os_x'
-  homebrew_cask 'dockertoolbox'
+  homebrew_cask 'docker'
 when 'debian'
   apt_package 'docker.io'
 when 'rhel'
