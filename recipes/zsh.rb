@@ -1,6 +1,8 @@
 case node['platform_family']
 when 'mac_os_x'
-  homebrew_package 'zsh'
+  homebrew_package 'zsh' do
+    not_if { Dir::exists("#{ENV['home']}/.oh_my_zsh")}
+  end
 when 'debian'
   apt_package 'zsh'
 else
