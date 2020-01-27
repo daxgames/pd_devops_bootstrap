@@ -20,15 +20,15 @@ when 'mac_os_x'
     backup false
   end
 
-  bash "install sococo to ~/Applications" do
+  bash "install sococo to /Applications/Sococo" do
     code <<-EOH
       hdiutil attach #{sococo_setup}
       cd /Volumes/Sococo
-      if [[ -d ${HOME}/Applications/Sococo.app ]] ; then
-        rm -Rf ${HOME}/Applications/Sococo.app
+      if [[ -d /Applications/Sococo.app ]] ; then
+        sudo rm -Rf /Applications/Sococo.app
       fi
 
-      cp -Rp ./Sococo.app ~/Applications/Sococo.app
+      sudo cp -Rp ./Sococo.app /Applications/Sococo.app
       cd ${HOME}/Desktop
       hdiutil detach /Volumes/Sococo
     EOH
